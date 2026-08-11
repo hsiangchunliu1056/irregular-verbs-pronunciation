@@ -69,9 +69,9 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   .page-shell { width: min(100% - 24px, 620px); }
   .hero { padding-top: 36px; }
   .toolbar { flex-direction: column; }
-  .verb-card { grid-template-columns: 36px 1fr; gap: 10px 12px; }
-  .meaning { align-self: center; }
-  .form { grid-column: 2; }
+  .verb-card { grid-template-columns: 36px repeat(3, minmax(0, 1fr)); gap: 10px 8px; }
+  .number { grid-row: 1 / span 2; }
+  .meaning { grid-column: 2 / -1; align-self: center; }
   .list-heading { display: block; }
   .hint { margin-top: 6px !important; }
 }
