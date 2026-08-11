@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="常見不規則動詞三態表，點擊單字即可播放美式英文發音。">
+  <title>不規則動詞三態｜美式發音</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="hero">
+      <p class="eyebrow">ENGLISH PRACTICE</p>
+      <h1>常見不規則動詞三態</h1>
+      <p class="intro">點擊任一英文單字，即可在此頁面播放美式英文發音。</p>
+      <div class="toolbar">
+        <label class="search-field" for="search">
+          <span class="sr-only">搜尋動詞或中文意思</span>
+          <input id="search" type="search" placeholder="搜尋動詞或中文意思" autocomplete="off">
+        </label>
+        <button id="stop-speaking" type="button" disabled>停止發音</button>
+      </div>
+      <p id="voice-status" class="voice-status" aria-live="polite">準備就緒</p>
+    </header>
+
+    <section class="verb-section" aria-label="不規則動詞清單">
+      <div class="list-heading">
+        <p id="result-count"></p>
+        <p class="hint">電腦版可直接點擊；部分 Excel 習慣設定不影響此網頁。</p>
+      </div>
+      <div id="verb-list" class="verb-list"></div>
+    </section>
+  </main>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
