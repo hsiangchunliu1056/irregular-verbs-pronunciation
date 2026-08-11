@@ -126,7 +126,11 @@ function render() {
     meaning.setAttribute('aria-label', `依序播放 ${verb.base}、${verb.past}、${verb.participle}，再播放中文意思 ${verb.meaning}`);
     meaning.addEventListener('click', () => speakVerb(verb, meaning));
     card.append(number, meaning);
-    card.append(form('原形', verb.base), form('過去式', verb.past), form('過去分詞', verb.participle));
+    card.append(
+      form('原形 / Base Form', verb.base),
+      form('過去式 / Past Tense', verb.past),
+      form('過去分詞 / Past Participle', verb.participle),
+    );
     list.append(card);
   });
 }
