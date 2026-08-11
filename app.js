@@ -11,10 +11,6 @@ function normalize(value) {
   return value.toLocaleLowerCase().replaceAll(' ', '');
 }
 
-function primaryForm(value) {
-  return value.split('/')[0].trim();
-}
-
 function setStatus(message) {
   status.textContent = message;
 }
@@ -78,20 +74,16 @@ function startSpeech(parts, button) {
 }
 
 function speak(word, button) {
-  const form = primaryForm(word);
-  setStatus(`正在播放：${form}`);
-  startSpeech([{ text: form, lang: 'en-US' }], button);
+  setStatus(`正在播放：${word}`);
+  startSpeech([{ text: word, lang: 'en-US' }], button);
 }
 
 function speakVerb(verb, button) {
-  const base = primaryForm(verb.base);
-  const past = primaryForm(verb.past);
-  const participle = primaryForm(verb.participle);
-  setStatus(`正在依序播放：${base}、${past}、${participle}、${verb.meaning}`);
+  setStatus(`正在依序播放：${verb.base}、${verb.past}、${verb.participle}、${verb.meaning}`);
   startSpeech([
-    { text: base, lang: 'en-US' },
-    { text: past, lang: 'en-US' },
-    { text: participle, lang: 'en-US' },
+    { text: verb.base, lang: 'en-US' },
+    { text: verb.past, lang: 'en-US' },
+    { text: verb.participle, lang: 'en-US' },
     { text: verb.meaning, lang: 'zh-TW' },
   ], button);
 }
@@ -122,9 +114,6 @@ function render() {
     return;
   }
   matches.forEach((verb) => {
-    const base = primaryForm(verb.base);
-    const past = primaryForm(verb.past);
-    const participle = primaryForm(verb.participle);
     const card = document.createElement('article');
     card.className = 'verb-card';
     const number = document.createElement('span');
@@ -134,13 +123,13 @@ function render() {
     meaning.className = 'meaning';
     meaning.type = 'button';
     meaning.textContent = verb.meaning;
-    meaning.setAttribute('aria-label', `依序播放 ${base}、${past}、${participle}，再播放中文意思 ${verb.meaning}`);
+    meaning.setAttribute('aria-label', `依序播放 ${verb.base}、${verb.past}、${verb.participle}，再播放中文意思 ${verb.meaning}`);
     meaning.addEventListener('click', () => speakVerb(verb, meaning));
     card.append(number, meaning);
     card.append(
-      form('原形 / Base Form', base),
-      form('過去式 / Past Tense', past),
-      form('過去分詞 / Past Participle', participle),
+      form('原形', verb.base),
+      form('過去式', verb.past),
+      form('過去分詞', verb.participle),
     );
     list.append(card);
   });
