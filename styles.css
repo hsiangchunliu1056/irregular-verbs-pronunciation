@@ -47,7 +47,11 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .number { color: #98a2b3; font-weight: 700; text-align: center; }
 
-.meaning { font-weight: 700; }
+.meaning { padding: 0; border: 0; border-radius: 6px; background: transparent; color: #1d2939; text-align: left; font-weight: 700; }
+
+.meaning:hover, .meaning:focus-visible { color: #4354c7; text-decoration: underline; text-underline-offset: 3px; outline: none; }
+
+.meaning.is-speaking { color: #a24017; text-decoration: underline; }
 
 .form-label { display: block; margin-bottom: 4px; color: #98a2b3; font-size: .75rem; }
 
