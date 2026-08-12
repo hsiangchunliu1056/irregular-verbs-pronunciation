@@ -92,10 +92,18 @@ function vowelGroups(word) {
   return [...word.matchAll(/ai|au|aw|ay|ea|ee|ei|ey|ie|oa|oe|oi|oo|ou|ow|oy|ue|ui|[aeiouy]/gi)];
 }
 
-function appendAnnotatedWord(parent, rawWord, isTarget = false) {
+const NO_IPA_WORDS = new Set([
+  'a', 'an', 'the', 'i', "i've", 'me', 'my', 'mine', 'we', 'our', 'ours', 'you', 'your', 'yours',
+  'he', 'him', 'his', 'she', 'her', 'hers', 'it', 'its', 'they', 'them', 'their', 'theirs',
+  'to', 'at', 'by', 'for', 'from', 'in', 'of', 'on', 'with', 'after', 'before', 'behind', 'beside',
+  'between', 'by', 'during', 'into', 'near', 'off', 'on', 'onto', 'over', 'since', 'through', 'toward',
+  'under', 'up', 'while', 'within', 'without',
+]);
+
+function appendAnnotatedWord(parent, rawWord, isTarget = false, showIpa = true) {
   const word = rawWord.toLowerCase();
   const vowels = WORD_VOWELS[word];
-  if (!vowels) {
+  if (!vowels || !showIpa) {
     parent.append(rawWord);
     return;
   }
@@ -132,7 +140,7 @@ function appendAnnotatedText(parent, text, highlightedWord = '') {
     }
     const isTarget = token.toLowerCase() === highlightAvailable;
     if (isTarget) highlightAvailable = '';
-    appendAnnotatedWord(parent, token, isTarget);
+    appendAnnotatedWord(parent, token, isTarget, isTarget || !NO_IPA_WORDS.has(token.toLowerCase()));
   });
 }
 
