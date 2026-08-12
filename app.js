@@ -78,6 +78,12 @@ function speak(word, button, rate = 0.9) {
   startSpeech([{ text: word, lang: 'en-US', rate }], button);
 }
 
+function speakPhonicsExample(button) {
+  const word = button.dataset.sound;
+  if (!word) return;
+  speak(word, button, 0.82);
+}
+
 function speakVerb(verb, button) {
   setStatus(`正在依序播放：${verb.base}、${verb.past}、${verb.participle}、${verb.meaning}`);
   startSpeech([
@@ -207,7 +213,7 @@ function sentenceExample({ sentence, word }) {
   button.type = 'button';
   button.setAttribute('aria-label', `播放例句：${sentence}`);
   appendAnnotatedText(button, sentence, word);
-  button.addEventListener('click', () => speak(sentence, button, 0.8));
+  button.addEventListener('click', () => speak(sentence, button, 0.72));
   return button;
 }
 
@@ -249,7 +255,7 @@ function render() {
 search.addEventListener('input', render);
 stopButton.addEventListener('click', () => { stopSpeaking(); setStatus('已停止發音'); });
 document.querySelectorAll('.phonics-guide-sound').forEach((button) => {
-  button.addEventListener('click', () => speak(button.dataset.sound, button));
+  button.addEventListener('click', () => speakPhonicsExample(button));
 });
 window.addEventListener('beforeunload', stopSpeaking);
 if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => chooseAmericanVoice();
