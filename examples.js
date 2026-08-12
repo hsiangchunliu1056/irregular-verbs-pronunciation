@@ -48,7 +48,6 @@ const SENTENCE_SUBJECTS = {
 
 const BASE_SENTENCES = {
   1: { sentence: 'The sun rises while I eat breakfast.', word: 'rises' },
-  2: { sentence: 'I am awake before my alarm rings.', word: 'awake' },
   3: { sentence: 'I am kind to my friends.', word: 'am' },
   4: { sentence: 'My backpack is easy to bear.', word: 'bear' },
   5: { sentence: 'My drum beats loudly in music class.', word: 'beats' },
@@ -106,6 +105,11 @@ const NATURAL_FORMS = {
 };
 
 const NATURAL_SENTENCE_SETS = {
+  2: [
+    { sentence: 'I wake up before my alarm goes off.', word: 'wake' },
+    { sentence: 'Yesterday, I woke up before my alarm went off.', word: 'woke' },
+    { sentence: "I've woken up before my alarm many times.", word: 'woken' },
+  ],
   26: [
     { sentence: 'This snack costs five dollars.', word: 'costs' },
     { sentence: 'Yesterday, this snack cost five dollars.', word: 'cost' },
