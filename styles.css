@@ -77,7 +77,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .annotated-vowel { position: relative; display: inline-block; }
 
-.vowel-symbol { position: absolute; bottom: -1.18em; left: 50%; color: #667085; font-family: "Segoe UI", "Arial Unicode MS", sans-serif; font-size: .68em; font-weight: 600; line-height: 1; transform: translateX(-50%); white-space: nowrap; }
+.vowel-symbol { position: absolute; bottom: -1.18em; left: 50%; color: #98a2b3; font-family: "Segoe UI", "Arial Unicode MS", sans-serif; font-size: .68em; font-weight: 600; line-height: 1; transform: translateX(-50%); white-space: nowrap; }
 
 .empty { padding: 36px 16px; border: 1px dashed #cfd5e3; border-radius: 14px; color: #667085; text-align: center; }
 
