@@ -23,7 +23,11 @@ h1 { margin: 0; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.04em; }
 
 .phonics-guide { display: flex; flex-wrap: wrap; gap: 7px; margin: -10px 0 20px; }
 
-.phonics-guide span { padding: 4px 7px; border: 1px solid #e4e7ee; border-radius: 999px; background: #fff; color: #667085; font-size: .78rem; }
+.phonics-guide span, .phonics-guide-sound { padding: 4px 7px; border: 1px solid #e4e7ee; border-radius: 999px; background: #fff; color: #667085; font-size: .78rem; }
+
+.phonics-guide-sound { cursor: pointer; font-weight: 400; }
+
+.phonics-guide-sound:hover, .phonics-guide-sound:focus-visible { border-color: #5969db; color: #273578; outline: none; }
 
 .phonics-guide b { color: #4756b5; }
 

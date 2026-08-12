@@ -248,6 +248,9 @@ function render() {
 
 search.addEventListener('input', render);
 stopButton.addEventListener('click', () => { stopSpeaking(); setStatus('已停止發音'); });
+document.querySelectorAll('.phonics-guide-sound').forEach((button) => {
+  button.addEventListener('click', () => speak(button.dataset.sound, button));
+});
 window.addEventListener('beforeunload', stopSpeaking);
 if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = () => chooseAmericanVoice();
 render();
