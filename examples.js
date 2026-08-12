@@ -47,15 +47,48 @@ const SENTENCE_SUBJECTS = {
 };
 
 const BASE_SENTENCES = {
-  3: 'I like to be kind to my friend.',
-  26: 'This snack does cost five dollars.',
-  41: 'I can fit into my new shirt.',
-  45: 'I forbid my toy dragon to take my crayons.',
-  46: 'I forecast rain in my weather journal.',
-  48: 'I foretell a happy ending in my story.',
-  80: 'I mean what I say.',
-  113: 'I sink my toy boat in the bath.',
-  141: 'I swell my cheeks like a frog.',
+  1: { sentence: 'The sun rises while I eat breakfast.', word: 'rises' },
+  2: { sentence: 'I am awake before my alarm rings.', word: 'awake' },
+  3: { sentence: 'I am kind to my friends.', word: 'am' },
+  4: { sentence: 'My backpack is easy to bear.', word: 'bear' },
+  5: { sentence: 'My drum beats loudly in music class.', word: 'beats' },
+  6: { sentence: 'My plant becomes taller each week.', word: 'becomes' },
+  7: { sentence: 'Our class begins after the bell rings.', word: 'begins' },
+  8: { sentence: 'A paper clip bends easily.', word: 'bends' },
+  12: { sentence: 'A puppy bites a chewy toy.', word: 'bites' },
+  13: { sentence: 'My scraped knee bleeds a little.', word: 'bleeds' },
+  14: { sentence: 'The wind blows bubbles across the yard.', word: 'blows' },
+  15: { sentence: 'A dry twig breaks under my shoe.', word: 'breaks' },
+  17: { sentence: 'My mom brings snacks for our picnic.', word: 'brings' },
+  21: { sentence: 'A balloon bursts when I sit on it.', word: 'bursts' },
+  25: { sentence: 'My friend comes over after school.', word: 'comes' },
+  27: { sentence: 'A snail creeps along the garden wall.', word: 'creeps' },
+  34: { sentence: 'My dad drives us to the pool.', word: 'drives' },
+  36: { sentence: 'My ball falls behind the sofa.', word: 'falls' },
+  42: { sentence: 'A squirrel flees when our dog barks.', word: 'flees' },
+  44: { sentence: 'A bird flies over the playground.', word: 'flies' },
+  51: { sentence: 'Water freezes in my ice tray.', word: 'freezes' },
+  54: { sentence: 'My family goes to the park on Sundays.', word: 'goes' },
+  56: { sentence: 'My bean plant grows by the window.', word: 'grows' },
+  57: { sentence: 'My jacket hangs by the front door.', word: 'hangs' },
+  68: { sentence: 'My teacher leads us to the library.', word: 'leads' },
+  69: { sentence: 'My block tower leans to one side.', word: 'leans' },
+  70: { sentence: 'A frog leaps over the puddle.', word: 'leaps' },
+  92: { sentence: 'The school bell rings for lunch.', word: 'rings' },
+  93: { sentence: 'The sun rises before I leave for school.', word: 'rises' },
+  103: { sentence: 'My dog shakes water from his fur.', word: 'shakes' },
+  107: { sentence: 'My flashlight shines under the bed.', word: 'shines' },
+  110: { sentence: 'My sweater shrinks in hot water.', word: 'shrinks' },
+  112: { sentence: 'Our class sings in music time.', word: 'sings' },
+  113: { sentence: 'My toy boat sinks in the bath.', word: 'sinks' },
+  117: { sentence: 'My toy car slides down the ramp.', word: 'slides' },
+  125: { sentence: 'A top spins on the floor.', word: 'spins' },
+  130: { sentence: 'A frog springs into the pond.', word: 'springs' },
+  132: { sentence: 'A raccoon steals a cookie from the table.', word: 'steals' },
+  134: { sentence: 'A bee stings my finger.', word: 'stings' },
+  135: { sentence: 'Wet socks stink after a rainy day.', word: 'stink' },
+  141: { sentence: 'My ankle swells after a bee sting.', word: 'swells' },
+  143: { sentence: 'The swing swings at the playground.', word: 'swings' },
 };
 
 function primaryVerbForm(value) {
@@ -67,15 +100,28 @@ function lowerFirst(value) {
   return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
+function presentForm(base) {
+  if (base === 'be') return 'is';
+  if (base === 'have') return 'has';
+  if (base === 'do') return 'does';
+  if (base === 'go') return 'goes';
+  if (/[^aeiou]y$/i.test(base)) return `${base.slice(0, -1)}ies`;
+  if (/(s|x|z|ch|sh)$/i.test(base)) return `${base}es`;
+  return `${base}s`;
+}
+
 function exampleSentences(verb) {
   const [subject, perfectAuxiliary] = SENTENCE_SUBJECTS[verb.id] || ['I', 'have'];
   const ending = SENTENCE_CONTEXTS[verb.id] || 'after school';
   const base = primaryVerbForm(verb.base);
   const past = primaryVerbForm(verb.past);
   const participle = primaryVerbForm(verb.participle);
+  const baseExample = BASE_SENTENCES[verb.id]
+    || { sentence: `${subject} ${subject === 'I' ? base : presentForm(base)} ${ending}.`, word: subject === 'I' ? base : presentForm(base) };
+  const perfectStart = subject === 'I' ? "I've" : `${subject} ${perfectAuxiliary}`;
   return [
-    { sentence: BASE_SENTENCES[verb.id] || `I ${base} ${ending}.`, word: base },
+    baseExample,
     { sentence: `Yesterday, ${lowerFirst(subject)} ${past} ${ending}.`, word: past },
-    { sentence: `${subject} ${perfectAuxiliary} ${participle} ${ending}.`, word: participle },
+    { sentence: `${perfectStart} ${participle} ${ending}.`, word: participle },
   ];
 }
