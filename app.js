@@ -59,7 +59,7 @@ function startSpeech(parts, button) {
     const part = parts[currentPart++];
     const utterance = new SpeechSynthesisUtterance(part.text.replaceAll('/', ' or '));
     utterance.lang = part.lang;
-    utterance.rate = 0.82;
+    utterance.rate = 0.9;
     utterance.voice = part.lang === 'zh-TW' ? chooseChineseVoice() : chooseAmericanVoice();
     utterance.onend = speakNext;
     utterance.onerror = () => {
