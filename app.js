@@ -92,6 +92,26 @@ function vowelGroups(word) {
   return [...word.matchAll(/ai|au|aw|ay|ea|ee|ei|ey|ie|oa|oe|oi|oo|ou|ow|oy|ue|ui|[aeiouy]/gi)];
 }
 
+const PHONICS_COMBINATIONS = [
+  { text: 'ture', ipa: 'tʃər' }, { text: 'dge', ipa: 'dʒ' }, { text: 'ck', ipa: 'k' },
+  { text: 'wr', ipa: 'r', startOnly: true }, { text: 'ph', ipa: 'f' }, { text: 'sh', ipa: 'ʃ' },
+  { text: 'kn', ipa: 'n', startOnly: true }, { text: 'qu', ipa: 'kw' }, { text: 'mb', ipa: 'm', endOnly: true },
+];
+
+function phonicsCombinationAt(word, index) {
+  const lowerWord = word.toLowerCase();
+  return PHONICS_COMBINATIONS.find(({ text, startOnly, endOnly }) => (
+    lowerWord.startsWith(text, index)
+    && (!startOnly || index === 0)
+    && (!endOnly || index + text.length === word.length)
+  ));
+}
+
+function vowelGroupAt(word, index) {
+  const match = word.slice(index).match(/^(ai|au|aw|ay|ea|ee|ei|ey|ie|oa|oe|oi|oo|ou|ow|oy|ue|ui|[aeiouy])/i);
+  return match?.[0] || '';
+}
+
 const NO_IPA_WORDS = new Set([
   'a', 'an', 'the', 'i', "i've", 'me', 'my', 'mine', 'we', 'our', 'ours', 'you', 'your', 'yours',
   'he', 'him', 'his', 'she', 'her', 'hers', 'it', 'its', 'they', 'them', 'their', 'theirs',
@@ -110,23 +130,44 @@ function appendAnnotatedWord(parent, rawWord, isTarget = false, showIpa = true) 
 
   const token = document.createElement('span');
   token.className = isTarget ? 'annotated-word target-word' : 'annotated-word';
-  const groups = vowelGroups(rawWord);
   let cursor = 0;
-  groups.forEach((match, index) => {
-    token.append(rawWord.slice(cursor, match.index));
+  let vowelIndex = 0;
+  while (cursor < rawWord.length) {
+    const combination = phonicsCombinationAt(rawWord, cursor);
+    if (combination) {
+      const group = document.createElement('span');
+      group.className = 'phonics-combination';
+      group.textContent = rawWord.slice(cursor, cursor + combination.text.length);
+      const symbol = document.createElement('span');
+      symbol.className = 'combo-symbol';
+      symbol.textContent = `/${combination.ipa}/`;
+      group.append(symbol);
+      token.append(group);
+      vowelIndex += vowelGroups(combination.text).length;
+      cursor += combination.text.length;
+      continue;
+    }
+
+    const groupText = vowelGroupAt(rawWord, cursor);
+    if (!groupText) {
+      token.append(rawWord[cursor]);
+      cursor += 1;
+      continue;
+    }
+
     const vowel = document.createElement('span');
     vowel.className = 'annotated-vowel';
-    vowel.textContent = match[0];
-    if (vowels[index]) {
+    vowel.textContent = groupText;
+    if (vowels[vowelIndex]) {
       const symbol = document.createElement('span');
       symbol.className = 'vowel-symbol';
-      symbol.textContent = `/${vowels[index]}/`;
+      symbol.textContent = `/${vowels[vowelIndex]}/`;
       vowel.append(symbol);
     }
     token.append(vowel);
-    cursor = match.index + match[0].length;
-  });
-  token.append(rawWord.slice(cursor));
+    vowelIndex += 1;
+    cursor += groupText.length;
+  }
   parent.append(token);
 }
 
