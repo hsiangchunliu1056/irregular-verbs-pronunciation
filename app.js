@@ -118,6 +118,13 @@ function sentenceExample({ sentence, word }) {
     highlightedWord.textContent = sentence.slice(wordStart, wordStart + word.length);
     button.append(highlightedWord, sentence.slice(wordStart + word.length));
   }
+  const ipa = ipaForSentence(sentence);
+  if (ipa) {
+    const ipaLine = document.createElement('span');
+    ipaLine.className = 'sentence-ipa';
+    ipaLine.textContent = `/${ipa}/`;
+    button.append(ipaLine);
+  }
   button.addEventListener('click', () => speak(sentence, button, 0.8));
   return button;
 }

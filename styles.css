@@ -71,6 +71,8 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .sentence strong { color: #e36822; font-weight: 800; }
 
+.sentence-ipa { display: block; margin-top: 3px; color: #667085; font-family: "Segoe UI", "Arial Unicode MS", sans-serif; font-size: .86rem; letter-spacing: .01em; }
+
 .empty { padding: 36px 16px; border: 1px dashed #cfd5e3; border-radius: 14px; color: #667085; text-align: center; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
