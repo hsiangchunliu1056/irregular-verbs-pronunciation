@@ -88,6 +88,54 @@ function speakVerb(verb, button) {
   ], button);
 }
 
+function vowelGroups(word) {
+  return [...word.matchAll(/ai|au|aw|ay|ea|ee|ei|ey|ie|oa|oe|oi|oo|ou|ow|oy|ue|ui|[aeiouy]/gi)];
+}
+
+function appendAnnotatedWord(parent, rawWord, isTarget = false) {
+  const word = rawWord.toLowerCase();
+  const vowels = WORD_VOWELS[word];
+  if (!vowels) {
+    parent.append(rawWord);
+    return;
+  }
+
+  const token = document.createElement('span');
+  token.className = isTarget ? 'annotated-word target-word' : 'annotated-word';
+  const groups = vowelGroups(rawWord);
+  let cursor = 0;
+  groups.forEach((match, index) => {
+    token.append(rawWord.slice(cursor, match.index));
+    const vowel = document.createElement('span');
+    vowel.className = 'annotated-vowel';
+    vowel.textContent = match[0];
+    if (vowels[index]) {
+      const symbol = document.createElement('span');
+      symbol.className = 'vowel-symbol';
+      symbol.textContent = `/${vowels[index]}/`;
+      vowel.append(symbol);
+    }
+    token.append(vowel);
+    cursor = match.index + match[0].length;
+  });
+  token.append(rawWord.slice(cursor));
+  parent.append(token);
+}
+
+function appendAnnotatedText(parent, text, highlightedWord = '') {
+  let highlightAvailable = highlightedWord.toLowerCase();
+  const tokens = text.match(/[A-Za-z]+(?:'[A-Za-z]+)?|[^A-Za-z]+/g) || [text];
+  tokens.forEach((token) => {
+    if (!/^[A-Za-z]/.test(token)) {
+      parent.append(token);
+      return;
+    }
+    const isTarget = token.toLowerCase() === highlightAvailable;
+    if (isTarget) highlightAvailable = '';
+    appendAnnotatedWord(parent, token, isTarget);
+  });
+}
+
 function form(label, word) {
   const wrapper = document.createElement('div');
   wrapper.className = 'form';
@@ -97,7 +145,7 @@ function form(label, word) {
   const button = document.createElement('button');
   button.className = 'word';
   button.type = 'button';
-  button.textContent = word;
+  appendAnnotatedText(button, word);
   button.setAttribute('aria-label', `播放 ${word} 的美式英文發音`);
   button.addEventListener('click', () => speak(word, button));
   wrapper.append(caption, button);
@@ -109,22 +157,7 @@ function sentenceExample({ sentence, word }) {
   button.className = 'sentence';
   button.type = 'button';
   button.setAttribute('aria-label', `播放例句：${sentence}`);
-  const wordStart = sentence.toLowerCase().indexOf(word.toLowerCase());
-  if (wordStart === -1) {
-    button.textContent = sentence;
-  } else {
-    button.append(sentence.slice(0, wordStart));
-    const highlightedWord = document.createElement('strong');
-    highlightedWord.textContent = sentence.slice(wordStart, wordStart + word.length);
-    button.append(highlightedWord, sentence.slice(wordStart + word.length));
-  }
-  const ipa = ipaForSentence(sentence);
-  if (ipa) {
-    const ipaLine = document.createElement('span');
-    ipaLine.className = 'sentence-ipa';
-    ipaLine.textContent = `/${ipa}/`;
-    button.append(ipaLine);
-  }
+  appendAnnotatedText(button, sentence, word);
   button.addEventListener('click', () => speak(sentence, button, 0.8));
   return button;
 }

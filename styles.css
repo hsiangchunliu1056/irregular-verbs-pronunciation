@@ -71,7 +71,13 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .sentence strong { color: #e36822; font-weight: 800; }
 
-.sentence-ipa { display: block; margin-top: 3px; color: #667085; font-family: "Segoe UI", "Arial Unicode MS", sans-serif; font-size: .86rem; letter-spacing: .01em; }
+.annotated-word { display: inline-block; padding-bottom: 1.15em; white-space: nowrap; }
+
+.target-word { color: #e36822; font-weight: 800; }
+
+.annotated-vowel { position: relative; display: inline-block; }
+
+.vowel-symbol { position: absolute; bottom: -1.18em; left: 50%; color: #667085; font-family: "Segoe UI", "Arial Unicode MS", sans-serif; font-size: .68em; font-weight: 600; line-height: 1; transform: translateX(-50%); white-space: nowrap; }
 
 .empty { padding: 36px 16px; border: 1px dashed #cfd5e3; border-radius: 14px; color: #667085; text-align: center; }
 
