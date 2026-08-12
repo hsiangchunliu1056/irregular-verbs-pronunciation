@@ -104,6 +104,24 @@ function form(label, word) {
   return wrapper;
 }
 
+function sentenceExample({ sentence, word }) {
+  const button = document.createElement('button');
+  button.className = 'sentence';
+  button.type = 'button';
+  button.setAttribute('aria-label', `播放例句：${sentence}`);
+  const wordStart = sentence.toLowerCase().indexOf(word.toLowerCase());
+  if (wordStart === -1) {
+    button.textContent = sentence;
+  } else {
+    button.append(sentence.slice(0, wordStart));
+    const highlightedWord = document.createElement('strong');
+    highlightedWord.textContent = sentence.slice(wordStart, wordStart + word.length);
+    button.append(highlightedWord, sentence.slice(wordStart + word.length));
+  }
+  button.addEventListener('click', () => speak(sentence, button));
+  return button;
+}
+
 function render() {
   const query = normalize(search.value);
   const matches = IRREGULAR_VERBS.filter((verb) => normalize(`${verb.meaning}${verb.base}${verb.past}${verb.participle}`).includes(query));
@@ -131,6 +149,10 @@ function render() {
       form('過去式', verb.past),
       form('過去分詞', verb.participle),
     );
+    const examples = document.createElement('div');
+    examples.className = 'examples';
+    exampleSentences(verb).forEach((example) => examples.append(sentenceExample(example)));
+    card.append(examples);
     list.append(card);
   });
 }

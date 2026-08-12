@@ -61,6 +61,16 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .word.is-speaking { color: #a24017; text-decoration: underline; }
 
+.examples { grid-column: 2 / -1; display: grid; gap: 6px; padding-top: 2px; }
+
+.sentence { padding: 6px 0; border: 0; border-radius: 6px; background: transparent; color: #475467; text-align: left; font-size: .94rem; line-height: 1.45; }
+
+.sentence:hover, .sentence:focus-visible { color: #273578; text-decoration: underline; text-underline-offset: 3px; outline: none; }
+
+.sentence.is-speaking { color: #a24017; text-decoration: underline; }
+
+.sentence strong { color: #e36822; font-weight: 800; }
+
 .empty { padding: 36px 16px; border: 1px dashed #cfd5e3; border-radius: 14px; color: #667085; text-align: center; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -72,6 +82,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   .verb-card { grid-template-columns: 36px repeat(3, minmax(0, 1fr)); gap: 10px 8px; }
   .number { grid-row: 1 / span 2; }
   .meaning { grid-column: 2 / -1; align-self: center; }
+  .examples { grid-column: 2 / -1; }
   .list-heading { display: block; }
   .hint { margin-top: 6px !important; }
 }
