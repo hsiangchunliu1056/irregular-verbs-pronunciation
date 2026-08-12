@@ -46,6 +46,18 @@ const SENTENCE_SUBJECTS = {
   141: ['My ankle', 'has'],
 };
 
+const BASE_SENTENCES = {
+  3: 'I like to be kind to my friend.',
+  26: 'This snack does cost five dollars.',
+  41: 'I can fit into my new shirt.',
+  45: 'I forbid my toy dragon to take my crayons.',
+  46: 'I forecast rain in my weather journal.',
+  48: 'I foretell a happy ending in my story.',
+  80: 'I mean what I say.',
+  113: 'I sink my toy boat in the bath.',
+  141: 'I swell my cheeks like a frog.',
+};
+
 function primaryVerbForm(value) {
   return value.split('/')[0].trim();
 }
@@ -62,7 +74,7 @@ function exampleSentences(verb) {
   const past = primaryVerbForm(verb.past);
   const participle = primaryVerbForm(verb.participle);
   return [
-    { sentence: `${subject} will ${base} ${ending}.`, word: base },
+    { sentence: BASE_SENTENCES[verb.id] || `I ${base} ${ending}.`, word: base },
     { sentence: `Yesterday, ${lowerFirst(subject)} ${past} ${ending}.`, word: past },
     { sentence: `${subject} ${perfectAuxiliary} ${participle} ${ending}.`, word: participle },
   ];
