@@ -91,6 +91,63 @@ const BASE_SENTENCES = {
   143: { sentence: 'The swing swings at the playground.', word: 'swings' },
 };
 
+const NATURAL_FORMS = {
+  20: { past: 'burned', participle: 'burned' }, 32: { past: 'dreamed', participle: 'dreamed' },
+  45: { past: 'forbade' }, 52: { participle: 'gotten' }, 65: { past: 'kneeled', participle: 'kneeled' },
+  69: { past: 'leaned', participle: 'leaned' }, 70: { past: 'leaped', participle: 'leaped' },
+  71: { past: 'learned', participle: 'learned' }, 77: { past: 'lit', participle: 'lit' },
+  86: { participle: 'proven' }, 102: { participle: 'sewn' }, 104: { participle: 'shaved' },
+  105: { participle: 'sheared' }, 110: { past: 'shrank', participle: 'shrunk' },
+  119: { past: 'smelled', participle: 'smelled' }, 121: { past: 'sped', participle: 'sped' },
+  122: { past: 'spelled', participle: 'spelled' }, 124: { past: 'spilled', participle: 'spilled' },
+  126: { past: 'spit', participle: 'spit' }, 128: { past: 'spoiled', participle: 'spoiled' },
+  130: { past: 'sprang', participle: 'sprung' }, 135: { past: 'stank', participle: 'stunk' },
+  141: { participle: 'swollen' }, 159: { past: 'wetted', participle: 'wetted' },
+};
+
+const NATURAL_SENTENCE_SETS = {
+  26: [
+    { sentence: 'This snack costs five dollars.', word: 'costs' },
+    { sentence: 'Yesterday, this snack cost five dollars.', word: 'cost' },
+    { sentence: 'This snack has cost five dollars all week.', word: 'cost' },
+  ],
+  41: [
+    { sentence: 'My new shirt fits me well.', word: 'fits' },
+    { sentence: 'Yesterday, my new shirt fit me well.', word: 'fit' },
+    { sentence: 'My new shirt has fit me all year.', word: 'fit' },
+  ],
+  45: [
+    { sentence: 'My dad forbids candy before dinner.', word: 'forbids' },
+    { sentence: 'Yesterday, my dad forbade candy before dinner.', word: 'forbade' },
+    { sentence: 'My dad has forbidden candy before dinner.', word: 'forbidden' },
+  ],
+  46: [
+    { sentence: 'The weather app forecasts rain tomorrow.', word: 'forecasts' },
+    { sentence: 'Yesterday, the weather app forecast rain.', word: 'forecast' },
+    { sentence: 'The weather app has forecast rain for tomorrow.', word: 'forecast' },
+  ],
+  48: [
+    { sentence: 'The story foretells a surprise ending.', word: 'foretells' },
+    { sentence: 'The story foretold a surprise ending.', word: 'foretold' },
+    { sentence: 'The story has foretold a surprise ending.', word: 'foretold' },
+  ],
+  80: [
+    { sentence: 'I mean what I say.', word: 'mean' },
+    { sentence: "Yesterday, my teacher meant 'happy' when she said 'glad.'", word: 'meant' },
+    { sentence: 'My teacher has meant well.', word: 'meant' },
+  ],
+  113: [
+    { sentence: 'My toy boat sinks in the bath.', word: 'sinks' },
+    { sentence: 'Yesterday, my toy boat sank in the bath.', word: 'sank' },
+    { sentence: 'My toy boat has sunk in the bath.', word: 'sunk' },
+  ],
+  141: [
+    { sentence: 'My ankle swells after a bee sting.', word: 'swells' },
+    { sentence: 'My ankle swelled after a bee sting.', word: 'swelled' },
+    { sentence: 'My ankle has swollen since the bee sting.', word: 'swollen' },
+  ],
+};
+
 function primaryVerbForm(value) {
   return value.split('/')[0].trim();
 }
@@ -111,11 +168,12 @@ function presentForm(base) {
 }
 
 function exampleSentences(verb) {
+  if (NATURAL_SENTENCE_SETS[verb.id]) return NATURAL_SENTENCE_SETS[verb.id];
   const [subject, perfectAuxiliary] = SENTENCE_SUBJECTS[verb.id] || ['I', 'have'];
   const ending = SENTENCE_CONTEXTS[verb.id] || 'after school';
   const base = primaryVerbForm(verb.base);
-  const past = primaryVerbForm(verb.past);
-  const participle = primaryVerbForm(verb.participle);
+  const past = NATURAL_FORMS[verb.id]?.past || primaryVerbForm(verb.past);
+  const participle = NATURAL_FORMS[verb.id]?.participle || primaryVerbForm(verb.participle);
   const baseExample = BASE_SENTENCES[verb.id]
     || { sentence: `${subject} ${subject === 'I' ? base : presentForm(base)} ${ending}.`, word: subject === 'I' ? base : presentForm(base) };
   const perfectStart = subject === 'I' ? "I've" : `${subject} ${perfectAuxiliary}`;
