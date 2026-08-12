@@ -59,7 +59,7 @@ function startSpeech(parts, button) {
     const part = parts[currentPart++];
     const utterance = new SpeechSynthesisUtterance(part.text.replaceAll('/', ' or '));
     utterance.lang = part.lang;
-    utterance.rate = 0.9;
+    utterance.rate = part.rate ?? 0.9;
     utterance.voice = part.lang === 'zh-TW' ? chooseChineseVoice() : chooseAmericanVoice();
     utterance.onend = speakNext;
     utterance.onerror = () => {
@@ -73,9 +73,9 @@ function startSpeech(parts, button) {
   speakNext();
 }
 
-function speak(word, button) {
+function speak(word, button, rate = 0.9) {
   setStatus(`正在播放：${word}`);
-  startSpeech([{ text: word, lang: 'en-US' }], button);
+  startSpeech([{ text: word, lang: 'en-US', rate }], button);
 }
 
 function speakVerb(verb, button) {
@@ -118,7 +118,7 @@ function sentenceExample({ sentence, word }) {
     highlightedWord.textContent = sentence.slice(wordStart, wordStart + word.length);
     button.append(highlightedWord, sentence.slice(wordStart + word.length));
   }
-  button.addEventListener('click', () => speak(sentence, button));
+  button.addEventListener('click', () => speak(sentence, button, 0.8));
   return button;
 }
 
