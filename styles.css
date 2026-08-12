@@ -3,6 +3,8 @@
   font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
   color: #1d2939;
   background: #f7f8fc;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 * { box-sizing: border-box; }
