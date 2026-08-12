@@ -240,9 +240,9 @@ function render() {
     meaning.addEventListener('click', () => speakVerb(verb, meaning));
     card.append(number, meaning);
     card.append(
-      form('原形', verb.base),
-      form('過去式', verb.past),
-      form('過去分詞', verb.participle),
+      form('Base Form', verb.base),
+      form('Past Tense', verb.past),
+      form('Past Participle', verb.participle),
     );
     const examples = document.createElement('div');
     examples.className = 'examples';
