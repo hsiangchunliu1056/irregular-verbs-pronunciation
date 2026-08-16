@@ -25,6 +25,10 @@ function chooseChineseVoice() {
     || null;
 }
 
+function americanSpeechText(text) {
+  return text.replace(/\bleads\b/gi, 'leeds').replace(/\blead\b/gi, 'leed');
+}
+
 function stopSpeaking() {
   speechSession += 1;
   if ('speechSynthesis' in window) speechSynthesis.cancel();
@@ -57,7 +61,8 @@ function startSpeech(parts, button) {
     }
 
     const part = parts[currentPart++];
-    const utterance = new SpeechSynthesisUtterance(part.text.replaceAll('/', ' or '));
+    const spokenText = part.lang === 'en-US' ? americanSpeechText(part.text) : part.text;
+    const utterance = new SpeechSynthesisUtterance(spokenText.replaceAll('/', ' or '));
     utterance.lang = part.lang;
     utterance.rate = part.rate ?? 0.9;
     utterance.voice = part.lang === 'zh-TW' ? chooseChineseVoice() : chooseAmericanVoice();
