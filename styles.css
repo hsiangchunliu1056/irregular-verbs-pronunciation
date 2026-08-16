@@ -166,4 +166,26 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   .examples { grid-column: 2 / -1; }
   .list-heading { display: block; }
   .hint { margin-top: 6px !important; }
+
+  .practice-area.is-flashcard { position: fixed; inset: 0; z-index: 10; display: flex; margin: 0; padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); overflow-y: auto; background: #273578; }
+  .practice-area.is-flashcard .study-card { width: 100%; min-height: calc(100dvh - 40px); align-content: space-evenly; padding: 28px 20px; border-radius: 0; }
+  .practice-area.is-flashcard .card-number { font-size: 1rem; }
+  .practice-area.is-flashcard .card-prompt { font-size: clamp(3rem, 15vw, 4.8rem); }
+  .practice-area.is-flashcard .card-answer { gap: 14px; }
+  .practice-area.is-flashcard .card-answer span { padding: 16px; }
+  .practice-area.is-flashcard .card-answer small { font-size: 1rem; }
+  .practice-area.is-flashcard .flashcard-word { font-size: clamp(1.8rem, 9vw, 2.8rem); }
+  .practice-area.is-flashcard .practice-actions button { padding: 12px 14px; font-size: 1rem; }
+}
+
+@media (max-width: 900px) and (max-height: 600px) and (orientation: landscape) {
+  .practice-area.is-flashcard { position: fixed; inset: 0; z-index: 10; display: flex; margin: 0; padding: 12px max(24px, env(safe-area-inset-right)); overflow-y: auto; background: #273578; }
+  .practice-area.is-flashcard .study-card { width: 100%; min-height: calc(100dvh - 24px); align-content: space-evenly; padding: 14px 24px; border-radius: 0; }
+  .practice-area.is-flashcard .card-number { font-size: .85rem; }
+  .practice-area.is-flashcard .card-prompt { font-size: clamp(2rem, 7vw, 3.5rem); }
+  .practice-area.is-flashcard .card-answer { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .practice-area.is-flashcard .card-answer span { padding: 10px; }
+  .practice-area.is-flashcard .card-answer small { font-size: .78rem; }
+  .practice-area.is-flashcard .flashcard-word { font-size: clamp(1.3rem, 3.8vw, 2rem); }
+  .practice-area.is-flashcard .practice-actions button { padding: 8px 11px; font-size: .86rem; }
 }

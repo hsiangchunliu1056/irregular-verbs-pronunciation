@@ -302,6 +302,7 @@ function practiceButton(label, action) {
 
 function renderFlashcard() {
   const verb = practiceVerbs[practiceIndex];
+  practiceArea.classList.add('is-flashcard');
   practiceArea.replaceChildren();
   const card = document.createElement('div');
   card.className = 'study-card';
@@ -348,6 +349,11 @@ function renderFlashcard() {
       renderFlashcard();
     }),
     speakButton,
+    practiceButton('結束閃卡', () => {
+      practiceArea.hidden = true;
+      practiceArea.classList.remove('is-flashcard');
+      practiceStatus.textContent = '已結束閃卡，可重新設定範圍或模式。';
+    }),
     practiceButton('下一張', () => {
       practiceIndex = (practiceIndex + 1) % practiceVerbs.length;
       flashcardFlipped = false;
@@ -372,6 +378,7 @@ function quizOptions(answer, field) {
 }
 
 function renderQuiz() {
+  practiceArea.classList.remove('is-flashcard');
   practiceArea.replaceChildren();
   if (practiceIndex === quizQuestions.length) {
     const result = document.createElement('div');
