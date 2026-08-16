@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="常見不規則動詞三態表，點擊單字即可播放美式英文發音。">
   <title>不規則動詞三態｜美式發音</title>
-  <link rel="stylesheet" href="styles.css?v=20260812-landscape-text">
+  <link rel="stylesheet" href="styles.css?v=20260816-practice-modes-v1">
 </head>
 <body>
   <main class="page-shell">
@@ -36,6 +36,27 @@
       <p id="voice-status" class="voice-status" aria-live="polite">準備就緒</p>
     </header>
 
+    <section class="practice-panel" aria-labelledby="practice-title">
+      <div>
+        <p class="eyebrow">PRACTICE MODE</p>
+        <h2 id="practice-title">練習模式</h2>
+      </div>
+      <form id="practice-form" class="practice-controls">
+        <label for="practice-range">編號範圍
+          <input id="practice-range" type="text" inputmode="numeric" value="1-10" placeholder="例如：61-90">
+        </label>
+        <label for="practice-mode">模式
+          <select id="practice-mode">
+            <option value="flashcards">閃卡模式</option>
+            <option value="quiz">考試模式</option>
+          </select>
+        </label>
+        <button type="submit">開始練習</button>
+      </form>
+      <p id="practice-status" class="practice-status" aria-live="polite"></p>
+      <div id="practice-area" class="practice-area" hidden></div>
+    </section>
+
     <section class="verb-section" aria-label="不規則動詞清單">
       <div class="list-heading">
         <p id="result-count"></p>
@@ -47,6 +68,6 @@
   <script src="data.js?v=20260812"></script>
   <script src="examples.js?v=20260816-homograph-ipa-v1"></script>
   <script src="phonetics.js?v=20260812-vowel-ipa-v1"></script>
-  <script src="app.js?v=20260816-lead-audio-v1"></script>
+  <script src="app.js?v=20260816-practice-modes-v1"></script>
 </body>
 </html>
