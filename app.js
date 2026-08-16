@@ -322,8 +322,12 @@ function renderFlashcard() {
     const item = document.createElement('span');
     const caption = document.createElement('small');
     caption.textContent = label;
-    const value = document.createElement('strong');
+    const value = document.createElement('button');
+    value.type = 'button';
+    value.className = 'flashcard-word';
     value.textContent = word;
+    value.setAttribute('aria-label', `播放 ${word} 的美式英文發音`);
+    value.addEventListener('click', () => speak(word, value));
     item.append(caption, value);
     answer.append(item);
   });

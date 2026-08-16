@@ -73,6 +73,10 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .study-card .card-answer small { color: #c9d0ff; font-weight: 700; }
 
+.study-card .card-answer .flashcard-word { padding: 0; border: 0; border-radius: 0; background: transparent; color: #fff; text-align: left; font-weight: 800; }
+
+.study-card .card-answer .flashcard-word:hover, .study-card .card-answer .flashcard-word:focus-visible { color: #c9d0ff; text-decoration: underline; text-underline-offset: 3px; outline: none; }
+
 .practice-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
 .practice-actions button, .quiz-options button { background: #fff; color: #273578; }
