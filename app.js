@@ -308,9 +308,12 @@ function renderFlashcard() {
   const number = document.createElement('p');
   number.className = 'card-number';
   number.textContent = `第 ${practiceIndex + 1} / ${practiceVerbs.length} 張 · 編號 ${verb.id}`;
-  const prompt = document.createElement('div');
+  const prompt = document.createElement('button');
+  prompt.type = 'button';
   prompt.className = 'card-prompt';
   prompt.textContent = verb.meaning;
+  prompt.setAttribute('aria-label', `播放 ${verb.base}、${verb.past}、${verb.participle} 和中文 ${verb.meaning}`);
+  prompt.addEventListener('click', () => speakVerb(verb, prompt));
   const answer = document.createElement('div');
   answer.className = 'card-answer';
   answer.hidden = !flashcardFlipped;

@@ -65,7 +65,9 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 
 .study-card .card-number { color: #c9d0ff; font-size: .85rem; font-weight: 700; }
 
-.study-card .card-prompt { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; }
+.study-card .card-prompt { padding: 0; border: 0; border-radius: 0; background: transparent; color: #fff; font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; }
+
+.study-card .card-prompt:hover, .study-card .card-prompt:focus-visible, .study-card .card-prompt.is-speaking { color: #c9d0ff; text-decoration: underline; text-underline-offset: 5px; outline: none; }
 
 .study-card .card-answer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: left; }
 
