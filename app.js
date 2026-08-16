@@ -126,9 +126,9 @@ const NO_IPA_WORDS = new Set([
   'under', 'up', 'while', 'within', 'without',
 ]);
 
-function appendAnnotatedWord(parent, rawWord, isTarget = false, showIpa = true) {
+function appendAnnotatedWord(parent, rawWord, isTarget = false, showIpa = true, vowelOverride = null) {
   const word = rawWord.toLowerCase();
-  const vowels = WORD_VOWELS[word];
+  const vowels = vowelOverride || WORD_VOWELS[word];
   if (!vowels || !showIpa) {
     parent.append(rawWord);
     return;
@@ -177,7 +177,7 @@ function appendAnnotatedWord(parent, rawWord, isTarget = false, showIpa = true) 
   parent.append(token);
 }
 
-function appendAnnotatedText(parent, text, highlightedWord = '') {
+function appendAnnotatedText(parent, text, highlightedWord = '', targetVowelOverride = null) {
   let highlightAvailable = highlightedWord.toLowerCase();
   const tokens = text.match(/[A-Za-z]+(?:'[A-Za-z]+)?|[^A-Za-z]+/g) || [text];
   tokens.forEach((token) => {
@@ -187,11 +187,17 @@ function appendAnnotatedText(parent, text, highlightedWord = '') {
     }
     const isTarget = token.toLowerCase() === highlightAvailable;
     if (isTarget) highlightAvailable = '';
-    appendAnnotatedWord(parent, token, isTarget, isTarget || !NO_IPA_WORDS.has(token.toLowerCase()));
+    appendAnnotatedWord(
+      parent,
+      token,
+      isTarget,
+      isTarget || !NO_IPA_WORDS.has(token.toLowerCase()),
+      isTarget ? targetVowelOverride : null,
+    );
   });
 }
 
-function form(label, word) {
+function form(label, word, vowelOverride = null) {
   const wrapper = document.createElement('div');
   wrapper.className = 'form';
   const caption = document.createElement('span');
@@ -200,19 +206,19 @@ function form(label, word) {
   const button = document.createElement('button');
   button.className = 'word';
   button.type = 'button';
-  appendAnnotatedText(button, word);
+  appendAnnotatedText(button, word, word, vowelOverride);
   button.setAttribute('aria-label', `播放 ${word} 的美式英文發音`);
   button.addEventListener('click', () => speak(word, button));
   wrapper.append(caption, button);
   return wrapper;
 }
 
-function sentenceExample({ sentence, word }) {
+function sentenceExample({ sentence, word, vowels = null }) {
   const button = document.createElement('button');
   button.className = 'sentence';
   button.type = 'button';
   button.setAttribute('aria-label', `播放例句：${sentence}`);
-  appendAnnotatedText(button, sentence, word);
+  appendAnnotatedText(button, sentence, word, vowels);
   button.addEventListener('click', () => speak(sentence, button, 0.72));
   return button;
 }
@@ -240,9 +246,9 @@ function render() {
     meaning.addEventListener('click', () => speakVerb(verb, meaning));
     card.append(number, meaning);
     card.append(
-      form('Base Form', verb.base),
-      form('Past Tense', verb.past),
-      form('Past Participle', verb.participle),
+      form('Base Form', verb.base, FORM_VOWEL_OVERRIDES[verb.id]?.base),
+      form('Past Tense', verb.past, FORM_VOWEL_OVERRIDES[verb.id]?.past),
+      form('Past Participle', verb.participle, FORM_VOWEL_OVERRIDES[verb.id]?.participle),
     );
     const examples = document.createElement('div');
     examples.className = 'examples';

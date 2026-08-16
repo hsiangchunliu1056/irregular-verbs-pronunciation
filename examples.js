@@ -104,6 +104,12 @@ const NATURAL_FORMS = {
   141: { participle: 'swollen' }, 159: { past: 'wetted', participle: 'wetted' },
 };
 
+const FORM_VOWEL_OVERRIDES = {
+  68: { base: ['iː'], past: ['ɛ'], participle: ['ɛ'] },
+  89: { base: ['iː'], past: ['ɛ'], participle: ['ɛ'] },
+  161: { base: ['aɪ'], past: ['aʊ'], participle: ['aʊ'] },
+};
+
 const NATURAL_SENTENCE_SETS = {
   2: [
     { sentence: 'I wake up before my alarm goes off.', word: 'wake' },
@@ -125,6 +131,11 @@ const NATURAL_SENTENCE_SETS = {
     { sentence: 'Yesterday, my dad forbade candy before dinner.', word: 'forbade' },
     { sentence: 'My dad has forbidden candy before dinner.', word: 'forbidden' },
   ],
+  68: [
+    { sentence: 'My teacher leads us to the library.', word: 'leads', vowels: ['iː'] },
+    { sentence: 'Yesterday, my teacher led us to the library.', word: 'led', vowels: ['ɛ'] },
+    { sentence: 'My teacher has led us to the library.', word: 'led', vowels: ['ɛ'] },
+  ],
   46: [
     { sentence: 'The weather app forecasts rain tomorrow.', word: 'forecasts' },
     { sentence: 'Yesterday, the weather app forecast rain.', word: 'forecast' },
@@ -139,6 +150,11 @@ const NATURAL_SENTENCE_SETS = {
     { sentence: 'I mean what I say.', word: 'mean' },
     { sentence: "Yesterday, my teacher meant 'happy' when she said 'glad.'", word: 'meant' },
     { sentence: 'My teacher has meant well.', word: 'meant' },
+  ],
+  89: [
+    { sentence: 'I read a book before bed.', word: 'read', vowels: ['iː'] },
+    { sentence: 'Yesterday, I read a book before bed.', word: 'read', vowels: ['ɛ'] },
+    { sentence: "I've read a book before bed.", word: 'read', vowels: ['ɛ'] },
   ],
   113: [
     { sentence: 'My toy boat sinks in the bath.', word: 'sinks' },
