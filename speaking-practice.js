@@ -10,6 +10,10 @@ const gameFeedback = document.querySelector('#game-feedback');
 const timerDisplay = document.querySelector('#timer-display');
 const timerButton = document.querySelector('#timer-button');
 const stopButton = document.querySelector('#stop-speaking');
+const recordButton = document.querySelector('#record-button');
+const playRecordingButton = document.querySelector('#play-recording');
+const recordingPlayback = document.querySelector('#recording-playback');
+const recordingStatus = document.querySelector('#recording-status');
 const formInputs = {
   base: document.querySelector('#write-base'),
   past: document.querySelector('#write-past'),
@@ -51,6 +55,10 @@ let activeButton = null;
 let speechSession = 0;
 let timerSeconds = 300;
 let timerId = null;
+let mediaRecorder = null;
+let recordingStream = null;
+let recordingChunks = [];
+let recordingUrl = null;
 
 function primaryForm(value) {
   return value.split('/')[0].trim();
@@ -71,6 +79,58 @@ function stopSpeaking() {
   if (activeButton) activeButton.classList.remove('is-speaking');
   activeButton = null;
   stopButton.disabled = true;
+}
+
+function releaseRecordingStream() {
+  if (!recordingStream) return;
+  recordingStream.getTracks().forEach((track) => track.stop());
+  recordingStream = null;
+}
+
+function resetRecordButton() {
+  recordButton.textContent = '開始錄音';
+  recordButton.classList.remove('is-recording');
+}
+
+async function toggleRecording() {
+  if (mediaRecorder?.state === 'recording') {
+    mediaRecorder.stop();
+    recordButton.disabled = true;
+    recordingStatus.textContent = '正在整理你的錄音…';
+    return;
+  }
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    recordingStatus.textContent = '此瀏覽器不支援錄音，請使用最新版 Chrome、Edge 或 Safari。';
+    return;
+  }
+  try {
+    recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recordingChunks = [];
+    mediaRecorder = new MediaRecorder(recordingStream);
+    mediaRecorder.addEventListener('dataavailable', (event) => {
+      if (event.data.size > 0) recordingChunks.push(event.data);
+    });
+    mediaRecorder.addEventListener('stop', () => {
+      const recording = new Blob(recordingChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+      if (recordingUrl) URL.revokeObjectURL(recordingUrl);
+      recordingUrl = URL.createObjectURL(recording);
+      recordingPlayback.src = recordingUrl;
+      recordingPlayback.hidden = false;
+      playRecordingButton.disabled = false;
+      releaseRecordingStream();
+      resetRecordButton();
+      recordButton.disabled = false;
+      recordingStatus.textContent = '錄音完成！按播放聽聽自己的聲音。';
+    }, { once: true });
+    mediaRecorder.start();
+    recordButton.textContent = '停止錄音';
+    recordButton.classList.add('is-recording');
+    recordingStatus.textContent = '錄音中…現在說三態和三句話。';
+  } catch (error) {
+    releaseRecordingStream();
+    resetRecordButton();
+    recordingStatus.textContent = '無法使用麥克風。請允許瀏覽器使用麥克風後再試。';
+  }
 }
 
 function speakParts(parts, button) {
@@ -271,4 +331,15 @@ document.querySelector('#game-listen').addEventListener('click', (event) => spea
 document.querySelector('#game-done').addEventListener('click', () => { gameFeedback.textContent = '做得好！換一樣東西，再說一次也可以。'; });
 stopButton.addEventListener('click', stopSpeaking);
 timerButton.addEventListener('click', toggleTimer);
-window.addEventListener('beforeunload', () => { stopSpeaking(); if (timerId) clearInterval(timerId); });
+recordButton.addEventListener('click', toggleRecording);
+playRecordingButton.addEventListener('click', () => {
+  recordingPlayback.play().catch(() => {
+    recordingStatus.textContent = '請按播放器上的播放鍵再試一次。';
+  });
+});
+window.addEventListener('beforeunload', () => {
+  stopSpeaking();
+  releaseRecordingStream();
+  if (recordingUrl) URL.revokeObjectURL(recordingUrl);
+  if (timerId) clearInterval(timerId);
+});

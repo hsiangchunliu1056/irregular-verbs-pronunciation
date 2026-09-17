@@ -51,6 +51,12 @@ input:focus, select:focus { border-color: #5264c8; outline: 3px solid #e1e6ff; }
 .word-token { padding: 7px 9px; border-radius: 9px; color: #344054; font-size: clamp(1.15rem, 5vw, 1.5rem); font-weight: 800; }
 .word-token.is-current { background: #ffe5d3; color: #c94d10; }
 
+.recording-panel { margin-top: 18px; padding: 18px; border: 1px solid #dbe2ff; border-radius: 14px; background: #f7f8ff; }
+.recording-panel h3 { margin: 0; color: #2d3f8d; font-size: 1.1rem; }
+.recording-panel > p:not(.feedback) { margin: 8px 0 0; color: #526077; font-size: .92rem; }
+.recording-panel audio { width: min(100%, 420px); margin-top: 12px; }
+#record-button.is-recording { background: #bf3f36; }
+
 .game-step { border-color: #ffd9c3; background: #fffaf7; }
 .game-sentence { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; color: #344054; font-size: clamp(1.15rem, 4.5vw, 1.45rem); font-weight: 800; }
 .game-sentence button { padding: 0; background: transparent; color: #e46d25; font-size: inherit; }

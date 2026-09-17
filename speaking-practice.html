@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="每天五分鐘，不規則動詞三態口說與動作練習。">
   <title>不規則動詞三態口說練習</title>
-  <link rel="stylesheet" href="speaking-practice.css?v=20260918-v1">
+  <link rel="stylesheet" href="speaking-practice.css?v=20260918-recording-v1">
 </head>
 <body>
   <main class="speaking-shell">
@@ -65,6 +65,16 @@
         <button id="word-read" type="button">開始逐字帶讀</button>
         <button id="stop-speaking" class="secondary" type="button" disabled>停止發音</button>
       </div>
+      <div class="recording-panel">
+        <h3>錄音回放</h3>
+        <p>按「開始錄音」後，跟著說三句話；停止後可立刻聽自己的聲音。錄音不會上傳。</p>
+        <div class="step-actions">
+          <button id="record-button" type="button">開始錄音</button>
+          <button id="play-recording" class="secondary" type="button" disabled>播放我的錄音</button>
+        </div>
+        <audio id="recording-playback" controls playsinline hidden></audio>
+        <p id="recording-status" class="feedback" aria-live="polite"></p>
+      </div>
     </section>
 
     <section class="practice-step game-step" aria-labelledby="step-four-title">
@@ -85,6 +95,6 @@
     </section>
   </main>
   <script src="data.js?v=20260812"></script>
-  <script src="speaking-practice.js?v=20260918-v1"></script>
+  <script src="speaking-practice.js?v=20260918-recording-v1"></script>
 </body>
 </html>
