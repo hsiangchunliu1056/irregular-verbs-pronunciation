@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="每天五分鐘，不規則動詞三態口說與動作練習。">
+  <title>不規則動詞三態口說練習</title>
+  <link rel="stylesheet" href="speaking-practice.css?v=20260918-v1">
+</head>
+<body>
+  <main class="speaking-shell">
+    <header class="speaking-hero">
+      <a class="back-link" href="index.html">← 回到三態表</a>
+      <p class="eyebrow">5-MINUTE SPEAKING</p>
+      <h1>不規則動詞三態口說練習</h1>
+      <p>每天五分鐘：一個動詞、三個時態、三句話，加上一個動作。</p>
+      <div class="timer" aria-live="polite">
+        <strong id="timer-display">05:00</strong>
+        <button id="timer-button" type="button">開始 5 分鐘</button>
+      </div>
+    </header>
+
+    <section class="verb-picker" aria-labelledby="verb-picker-title">
+      <div>
+        <p class="step-label">今天的動詞</p>
+        <h2 id="verb-picker-title"><span id="current-meaning">拿</span> <span id="current-forms">take · took · taken</span></h2>
+      </div>
+      <div class="picker-actions">
+        <label for="verb-select">選擇動詞</label>
+        <select id="verb-select"></select>
+        <button id="random-verb" type="button">換一個動詞</button>
+        <button id="speak-forms" type="button">聽三態</button>
+      </div>
+    </section>
+
+    <section class="practice-step" aria-labelledby="step-one-title">
+      <p class="step-label">第一步</p>
+      <h2 id="step-one-title">寫下三態</h2>
+      <p>先自己寫，再按檢查。卡住時，請做動作或指著實物，不直接看答案。</p>
+      <div class="write-forms">
+        <label>原形<input id="write-base" type="text" autocomplete="off" spellcheck="false" placeholder="Base Form"></label>
+        <label>過去式<input id="write-past" type="text" autocomplete="off" spellcheck="false" placeholder="Past Tense"></label>
+        <label>過去分詞<input id="write-participle" type="text" autocomplete="off" spellcheck="false" placeholder="Past Participle"></label>
+      </div>
+      <div class="step-actions">
+        <button id="check-forms" type="button">檢查三態</button>
+        <button id="gesture-hint" class="secondary" type="button">只給動作提示</button>
+      </div>
+      <p id="form-feedback" class="feedback" aria-live="polite"></p>
+    </section>
+
+    <section class="practice-step sentence-step" aria-labelledby="step-two-title">
+      <p class="step-label">第二步</p>
+      <h2 id="step-two-title">套入固定句型</h2>
+      <p>指著實物或圖片，把空格換成你眼前的東西。</p>
+      <div id="sentence-frames" class="sentence-frames"></div>
+    </section>
+
+    <section class="practice-step" aria-labelledby="step-three-title">
+      <p class="step-label">第三步</p>
+      <h2 id="step-three-title">一個字一個字帶讀</h2>
+      <p>先指著實物，再跟著手勢慢慢說。橘色字是現在要說的字。</p>
+      <div id="word-by-word" class="word-by-word" aria-live="polite"></div>
+      <div class="step-actions">
+        <button id="word-read" type="button">開始逐字帶讀</button>
+        <button id="stop-speaking" class="secondary" type="button" disabled>停止發音</button>
+      </div>
+    </section>
+
+    <section class="practice-step game-step" aria-labelledby="step-four-title">
+      <p class="step-label">第四步：小遊戲</p>
+      <h2 id="step-four-title">找一樣東西，邊做邊說</h2>
+      <p id="game-instruction">找一樣你可以拿起來的東西，做動作後說完整句子。</p>
+      <div class="game-sentence">
+        <span>Yesterday, I</span>
+        <button id="game-verb" type="button"></button>
+        <input id="game-object" type="text" autocomplete="off" placeholder="你找到的東西">
+        <span>.</span>
+      </div>
+      <div class="step-actions">
+        <button id="game-listen" type="button">聽句型</button>
+        <button id="game-done" type="button">我說完了！</button>
+      </div>
+      <p id="game-feedback" class="feedback" aria-live="polite"></p>
+    </section>
+  </main>
+  <script src="data.js?v=20260812"></script>
+  <script src="speaking-practice.js?v=20260918-v1"></script>
+</body>
+</html>
