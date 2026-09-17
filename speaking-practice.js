@@ -181,14 +181,14 @@ function sentenceData() {
   const participle = primaryForm(currentVerb.participle);
   const ending = sentenceEndings[base.toLowerCase()] || 'it';
   return [
-    { label: '我會…', visible: `I can ${base} _____.`, spoken: `I can ${base} ${ending}.` },
+    { label: '我現在…', visible: `I ${base} _____.`, spoken: `I ${base} ${ending}.`, practice: `${base} ${ending}` },
     { label: '我昨天…', visible: `Yesterday, I ${past} _____.`, spoken: `Yesterday, I ${past} ${ending}.` },
     { label: '我已經…', visible: `I have ${participle} _____.`, spoken: `I have ${participle} ${ending}.` },
   ];
 }
 
 function renderWordByWord() {
-  const words = sentenceData()[0].spoken.match(/[A-Za-z']+|[.!?]/g) || [];
+  const words = sentenceData()[0].practice.match(/[A-Za-z']+/g) || [];
   wordByWord.replaceChildren();
   words.forEach((word) => {
     const token = document.createElement('span');
@@ -257,7 +257,7 @@ function checkForms() {
 function playWordByWord() {
   if (!('speechSynthesis' in window)) return;
   const tokens = [...wordByWord.querySelectorAll('.word-token')];
-  const spoken = sentenceData()[0].spoken.match(/[A-Za-z']+|[.!?]/g) || [];
+  const spoken = sentenceData()[0].practice.match(/[A-Za-z']+/g) || [];
   stopSpeaking();
   const session = speechSession;
   let index = 0;
