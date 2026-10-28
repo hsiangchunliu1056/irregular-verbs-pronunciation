@@ -29,6 +29,11 @@ function americanSpeechText(text) {
   return text.replace(/\bleads\b/gi, 'leeds').replace(/\blead\b/gi, 'leed');
 }
 
+function spokenVerbForm(verb, form) {
+  const word = verb[form];
+  return verb.id === 89 && form !== 'base' ? word.replace(/\bread\b/gi, 'red') : word;
+}
+
 function stopSpeaking() {
   speechSession += 1;
   if ('speechSynthesis' in window) speechSynthesis.cancel();
@@ -78,9 +83,9 @@ function startSpeech(parts, button) {
   speakNext();
 }
 
-function speak(word, button, rate = 0.9) {
+function speak(word, button, rate = 0.9, spokenWord = word) {
   setStatus(`正在播放：${word}`);
-  startSpeech([{ text: word, lang: 'en-US', rate }], button);
+  startSpeech([{ text: spokenWord, lang: 'en-US', rate }], button);
 }
 
 function speakPhonicsExample(button) {
@@ -92,9 +97,9 @@ function speakPhonicsExample(button) {
 function speakVerb(verb, button) {
   setStatus(`正在依序播放：${verb.base}、${verb.past}、${verb.participle}、${verb.meaning}`);
   startSpeech([
-    { text: verb.base, lang: 'en-US' },
-    { text: verb.past, lang: 'en-US' },
-    { text: verb.participle, lang: 'en-US' },
+    { text: spokenVerbForm(verb, 'base'), lang: 'en-US' },
+    { text: spokenVerbForm(verb, 'past'), lang: 'en-US' },
+    { text: spokenVerbForm(verb, 'participle'), lang: 'en-US' },
     { text: verb.meaning, lang: 'zh-TW' },
   ], button);
 }
@@ -202,7 +207,7 @@ function appendAnnotatedText(parent, text, highlightedWord = '', targetVowelOver
   });
 }
 
-function form(label, word, vowelOverride = null) {
+function form(label, word, vowelOverride = null, spokenWord = word) {
   const wrapper = document.createElement('div');
   wrapper.className = 'form';
   const caption = document.createElement('span');
@@ -213,18 +218,21 @@ function form(label, word, vowelOverride = null) {
   button.type = 'button';
   appendAnnotatedText(button, word, word, vowelOverride);
   button.setAttribute('aria-label', `播放 ${word} 的美式英文發音`);
-  button.addEventListener('click', () => speak(word, button));
+  button.addEventListener('click', () => speak(word, button, 0.9, spokenWord));
   wrapper.append(caption, button);
   return wrapper;
 }
 
-function sentenceExample({ sentence, word, vowels = null }) {
+function sentenceExample({ sentence, word, vowels = null }, verb, form) {
   const button = document.createElement('button');
   button.className = 'sentence';
   button.type = 'button';
   button.setAttribute('aria-label', `播放例句：${sentence}`);
   appendAnnotatedText(button, sentence, word, vowels);
-  button.addEventListener('click', () => speak(sentence, button, 0.72));
+  const spokenSentence = verb.id === 89 && form !== 'base'
+    ? sentence.replace(/\bread\b/i, 'red')
+    : sentence;
+  button.addEventListener('click', () => speak(sentence, button, 0.72, spokenSentence));
   return button;
 }
 
@@ -251,13 +259,13 @@ function render() {
     meaning.addEventListener('click', () => speakVerb(verb, meaning));
     card.append(number, meaning);
     card.append(
-      form('Base Form', verb.base, FORM_VOWEL_OVERRIDES[verb.id]?.base),
-      form('Past Tense', verb.past, FORM_VOWEL_OVERRIDES[verb.id]?.past),
-      form('Past Participle', verb.participle, FORM_VOWEL_OVERRIDES[verb.id]?.participle),
+      form('Base Form', verb.base, FORM_VOWEL_OVERRIDES[verb.id]?.base, spokenVerbForm(verb, 'base')),
+      form('Past Tense', verb.past, FORM_VOWEL_OVERRIDES[verb.id]?.past, spokenVerbForm(verb, 'past')),
+      form('Past Participle', verb.participle, FORM_VOWEL_OVERRIDES[verb.id]?.participle, spokenVerbForm(verb, 'participle')),
     );
     const examples = document.createElement('div');
     examples.className = 'examples';
-    exampleSentences(verb).forEach((example) => examples.append(sentenceExample(example)));
+    exampleSentences(verb).forEach((example, index) => examples.append(sentenceExample(example, verb, ['base', 'past', 'participle'][index])));
     card.append(examples);
     list.append(card);
   });
@@ -319,10 +327,11 @@ function renderFlashcard() {
   answer.className = 'card-answer';
   answer.hidden = !flashcardFlipped;
   [
-    ['Base Form', verb.base],
-    ['Past Tense', verb.past],
-    ['Past Participle', verb.participle],
-  ].forEach(([label, word]) => {
+    ['Base Form', 'base'],
+    ['Past Tense', 'past'],
+    ['Past Participle', 'participle'],
+  ].forEach(([label, form]) => {
+    const word = verb[form];
     const item = document.createElement('span');
     const caption = document.createElement('small');
     caption.textContent = label;
@@ -331,7 +340,7 @@ function renderFlashcard() {
     value.className = 'flashcard-word';
     value.textContent = word;
     value.setAttribute('aria-label', `播放 ${word} 的美式英文發音`);
-    value.addEventListener('click', () => speak(word, value));
+    value.addEventListener('click', () => speak(word, value, 0.9, spokenVerbForm(verb, form)));
     item.append(caption, value);
     answer.append(item);
   });
